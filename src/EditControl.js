@@ -59,12 +59,21 @@ export default class EditControl extends LayersControl {
     onCreated && onCreated(e);
   };
 
+  onDrawEdited = (e) => {
+    const { onEdited } = this.props;
+    const { layerContainer } = this.context;
+
+    layerContainer.addLayer(e.layer);
+    onEdited && onEdited(e);
+  };
+
   componentWillMount() {
     const { map } = this.context;
 
     this.updateDrawControls();
 
     map.on('draw:created', this.onDrawCreate);
+    map.on('draw:edited', this.onDrawEdited);
 
     for (const key in eventHandlers) {
       if (this.props[key]) {
